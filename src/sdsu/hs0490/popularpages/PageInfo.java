@@ -1,3 +1,5 @@
+package sdsu.hs0490.popularpages;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +54,11 @@ public class PageInfo implements Runnable  {
         threadOne.start();
         threadTwo.setName("Second");
         threadTwo.start();
+
+        while(threadOne.isAlive() || threadTwo.isAlive()){
+
+        }
+
     }
 
     @Override

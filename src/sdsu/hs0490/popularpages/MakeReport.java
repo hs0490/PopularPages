@@ -1,3 +1,4 @@
+package sdsu.hs0490.popularpages;
 /**
  * Created by hs0490 on 9/12/14.
  */
@@ -9,17 +10,9 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.SortedMap;
 
-import com.orsoncharts.plot.CategoryPlot3D;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.LegendItem;
-import org.jfree.chart.LegendItemCollection;
-import org.jfree.chart.labels.*;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
@@ -30,42 +23,25 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
-import org.jfree.ui.TextAnchor;
 import org.json.JSONException;
 
 
 public class MakeReport {
 
-    private String url;
-    private String fileName;
-    private BufferedWriter fileWriter;
-
-    public MakeReport(String url, String fileName){
-        this.url = url;
-        this.fileName = fileName;
-    }
-
     /**
-     * Creates a PDF document.
-     * @param filename the path to the new PDF document
+     * Generate Output
+     * @param url facebook url
+     * @param reportName the path to the new PDF document
      * @throws DocumentException
      * @throws IOException
-     * @throws SQLException
      */
-    public void createPdf(String filename) throws IOException, DocumentException, SQLException, JSONException {
+    public void generateOutput(String url, String reportName) throws IOException, DocumentException, JSONException {
 
         PageInfo aInfo = new PageInfo();
         aInfo.getPageInfo(url);
 
-        //Results file
-        File file = new File(fileName);
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        fileWriter= new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
-
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(reportName));
         document.open();
         document.addTitle("Community Pages");
         PdfContentByte cb = writer.getDirectContent();
@@ -91,6 +67,7 @@ public class MakeReport {
         cb.addTemplate(bar, 0, 0);
 
         document.close();
+        writer.close();
 
     }
 
@@ -104,17 +81,17 @@ public class MakeReport {
      */
     public  JFreeChart getPieChart(SortedMap<Integer, String> talkingAboutCountMap) throws IOException {
         DefaultPieDataset dataSet = new DefaultPieDataset();
-        fileWriter.write("Top 5 Pages with most Talking_About_Count");
-        fileWriter.newLine();
-        for(int i= 0; i < 5 ; i++ ){
+        PrintWriter fileWriter = new PrintWriter("talking_about_count.txt");
+        fileWriter.println("Top 5 Pages with most Talking_About_Count");
+        for(int i=1; i <= 5 ; i++ ){
             int talkingAboutCount =  talkingAboutCountMap.lastKey();
             String pageID =  talkingAboutCountMap.get(talkingAboutCount);
             String pageName = PageInfo.pagesTable.get(pageID);
+            fileWriter.println(i+" "+pageName+"--> Talking_About_Count = "+talkingAboutCount);
             dataSet.setValue(pageName,talkingAboutCount);
             talkingAboutCountMap.remove(talkingAboutCount,pageID);
-            String content = i+" "+pageName+"--> Talking_About_Count = "+talkingAboutCount;
-            fileWriter.write(content);
         }
+        fileWriter.close();
         return ChartFactory.createPieChart3D("Talking About Count", dataSet,
                 true, true, false);
     }
@@ -129,21 +106,20 @@ public class MakeReport {
      */
     public JFreeChart getBarChart(SortedMap<Integer, String> likeCountMap) throws IOException {
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
-        fileWriter.write("Top 5 Pages with most likes");
-        fileWriter.newLine();
+        PrintWriter fileWriter = new PrintWriter("like_count.txt");
+        fileWriter.println("Top 5 Pages with most likes");
 
-        for(int i= 0; i < 5 ; i++ ){
+        for(int i= 1; i <=5 ; i++ ){
             int likes = likeCountMap.lastKey();
             String pageID = likeCountMap.get(likes);
             String pageName = PageInfo.pagesTable.get(pageID);
+            fileWriter.println(i+" "+pageName+"--> Likes = "+likes);
             dataSet.setValue(likes, "Likes", pageID);
             likeCountMap.remove(likes,pageID);
-            String content = i+" "+pageName+"--> Likes = "+likes;
-            fileWriter.write(content);
-            fileWriter.newLine();
         }
+        fileWriter.close();
         return ChartFactory.createBarChart3D(
-                "Pages Liked", "Pages", "Likes",
+                "Page Like Count", "Page ID", "Likes",
                 dataSet, PlotOrientation.HORIZONTAL, false, true, false);
     }
 

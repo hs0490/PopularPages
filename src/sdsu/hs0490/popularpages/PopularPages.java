@@ -1,3 +1,5 @@
+package sdsu.hs0490.popularpages;
+
 import com.itextpdf.text.DocumentException;
 import org.json.JSONException;
 
@@ -14,13 +16,10 @@ public class PopularPages {
         String accessToken = "CAACEdEose0cBAHWFkwdlQvTvtnC9IZCAjL7uxhK5LD1LitqWZCv0wjajZBwqZBahZA5ZB0xWJgZAGJZBcPC3wbbzanfNfNemVIGl6MaeZCS6381ifKqeLDt5mwVrYsboMHCzwxpLz02wUgai13GV1zLF3YE81qpIjm5KnFYyH4U5uuHzOVfrXketpAowgZArcQvFd9pTpKZB5ZA5Bc4Mr4MfLvtX";
         String appName = "subway+surfers";
         String url = "https://graph.facebook.com/search?q="+appName+"&fields=name&type=page&access_token=" + accessToken;
-        String reportName = "bar.pdf";
-        String fileName = "a.txt";
+        String reportName = "report.pdf";
 
-        MakeReport aReport = new MakeReport(url,fileName);
-        aReport.createPdf(reportName);
-
-
+        MakeReport aReport = new MakeReport();
+        aReport.generateOutput(url, reportName);
 
     }
 }
