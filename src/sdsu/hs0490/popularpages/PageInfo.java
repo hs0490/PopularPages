@@ -55,10 +55,6 @@ public class PageInfo implements Runnable  {
         threadTwo.setName("Second");
         threadTwo.start();
 
-        while(threadOne.isAlive() || threadTwo.isAlive()){
-
-        }
-
     }
 
     @Override
