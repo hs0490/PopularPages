@@ -19,15 +19,15 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Executing Popular Pages
-Popular Pages has following classes:
-1. PopularPages --> Main class
-2. MakeReport
-3. PageInfo
-4. JSONParser
+ Popular Pages has following classes:
+ 1. PopularPages --> Main class
+ 2. MakeReport
+ 3. PageInfo
+ 4. JSONParser
 
-In order to run,
-1. Go to PopularPages.java .
-2. Change the accessToken variable .
+ In order to run,
+ 1. Go to PopularPages.java .
+ 2. Change the accessToken variable .
 
 
 
