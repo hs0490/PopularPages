@@ -1,7 +1,7 @@
 # Popular Pages
 
 ### Goal 
- To find the top 5 facebook pages of a gaming app using FACEBOOK GRAPH API. Popular Pages will help the app developer to find the popular facebook pages. So, developer can get good knowledge people are discussing about the app on these pages.
+ To find the top 5 facebook pages of a gaming app using FACEBOOK GRAPH API. Popular Pages will help the app developer to find the popular facebook pages. So, developer can get good knowledgeof what users are discussing about the app on these pages.
 
 ### Output 
  1. PDF Report comparing facebook pages in term of LIKES and TALKING_ABOUT_Count (report.pdf).
